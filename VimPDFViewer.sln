@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VimPDFViewer", "VimPDFViewer\VimPDFViewer.csproj", "{3CDB6222-2648-4748-82FF-3CF24333F1FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CDB6222-2648-4748-82FF-3CF24333F1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDB6222-2648-4748-82FF-3CF24333F1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDB6222-2648-4748-82FF-3CF24333F1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDB6222-2648-4748-82FF-3CF24333F1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E290EB3-B027-48F1-94A9-40733E7D31D4}
+	EndGlobalSection
+EndGlobal
