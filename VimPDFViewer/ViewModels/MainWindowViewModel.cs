@@ -16,18 +16,12 @@ using System.Windows.Media.Imaging;
 using Windows.Data.Pdf;
 using Windows.Storage;
 using System.Windows.Controls;
+using VimPDFViewer.Models;
 
 namespace VimPDFViewer.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
-
         public DelegateCommand Click_Menu_Open { get; }
 
         public DelegateCommand<Object> ToggleButton_File_Loaded { get; }
@@ -79,7 +73,7 @@ namespace VimPDFViewer.ViewModels
             if (file != null)
             {
                 pdfDocument = await PdfDocument.LoadFromFileAsync(file);
-                fileName = System.IO.Path.GetFileName(fileName);
+                fileName = Path.GetFileName(fileName);
                 await readPDFtoImage(pdfDocument);
             }
         }
@@ -126,71 +120,10 @@ namespace VimPDFViewer.ViewModels
                     }
                 }
             }
-            BitmapImage bmp = imageCombine(image);
+            BitmapImage bmp = BitmapManager.imageCombine(image);
             PdfSource = bmp;
             Width = bmp.PixelWidth;
             Height = bmp.PixelHeight;
         }
-
-        private BitmapImage imageCombine(BitmapImage[] bmpimg)
-        {
-            Bitmap[] bmp = new Bitmap[bmpimg.Length];
-            for (int i = 0; i < bmpimg.Length; i++)
-            {
-                bmp[i] = BitmapImage2Bitmap(bmpimg[i]);
-            }
-            int dstWidth = 0, dstHeight = 0;
-            for (int i = 0; i < bmp.Length; i++)
-            {
-                if (dstWidth < bmp[i].Width)
-                {
-                    dstWidth = bmp[i].Width;
-                }
-                dstHeight += bmp[i].Height;
-            }
-
-            var dst = new Bitmap(dstWidth, dstHeight);
-            var dstRect = new Rectangle();
-            using (var gs = Graphics.FromImage(dst))
-            {
-                for (int i = 0; i < bmp.Length; i++)
-                {
-                    dstRect.Width = bmp[i].Width;
-                    dstRect.Height = bmp[i].Height;
-                    gs.DrawImage(bmp[i], dstRect, 0, 0, bmp[i].Width, bmp[i].Height, GraphicsUnit.Pixel);
-                    dstRect.Y = dstRect.Bottom;
-                }
-            }
-            return Bitmap2BitmapImage(dst);
-        }
-        private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
-        {
-
-            using (MemoryStream outStream = new MemoryStream())
-            {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-                enc.Save(outStream);
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
-
-                return new Bitmap(bitmap);
-            }
-        }
-
-        private BitmapImage Bitmap2BitmapImage(Bitmap bmp)
-        {
-            BitmapImage bitmapImage = new BitmapImage();
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bmp.Save(memory, ImageFormat.Png);
-                memory.Position = 0;
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = memory;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-            }
-            return bitmapImage;
-        }
-
     }
 }
